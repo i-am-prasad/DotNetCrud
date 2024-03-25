@@ -1,0 +1,1223 @@
+ 
+______________________________________________________________________________________ 
+JQUERY  
+//DROP DOWN CASCADING  
+ 
+function bindCountryMaster() { 
+        $.ajax({ 
+            type: "GET", 
+            url: 
+"http://localhost:62335/EmployeeMasterAPICtrl/bindCountryMaster", 
+            contentType: "application/json; charset=utf-8", 
+            dataType: "json", 
+            success: function (result) { 
+                alert(result); 
+                $.each(result, function () { 
+                
+$("[id*=CountryId]").append($("<option></option>").val(this['CountryId']).
+ html(this["Country"])); 
+                }); 
+            }, 
+            failure: function (error) { 
+                alert(error); 
+            } 
+        }); 
+    } 
+______________________________________________________________________________________ 
+$("#CountryId").change(function () { 
+        var action = { action: $("#CountryId").val() }; 
+        alert(JSON.stringify(action)); 
+        $.ajax({ 
+            type: "GET", 
+            url: 
+"http://localhost:62335/EmployeeMasterAPICtrl/bindAllStateMasterById?Count
+ ryId=" + action.action, 
+            headers: { 
+                "Authorization": "Basic" + Token, 
+                "Content-Type": "application/json" 
+            }, 
+            contentType: "application/json; charset=utf-8", 
+            dataType: "json", 
+            success: function (result) { 
+                $.each(result, function () {                   
+$("[id*=StateId]").append($("<option></option>").val(this["StateId"]).html
+ (this["State"])); 
+                }); 
+            }, 
+            failure: function (response) { 
+ 
+                alert(response); 
+            } 
+        }); 
+ 
+______________________________________________________________________________________ 
+// SEARCH  
+ 
+$("#btnSearchEmployee").click(function () { 
+        alert("button is working"); 
+ 
+        var action = { action: $("#drpBindEmpCodeFirstName").val() }; 
+        alert(JSON.stringify(action)); 
+        $.ajax({ 
+            type: "GET", 
+            url: 
+"http://localhost:62335/EmployeeMasterAPICtrl/setEmployeeDetails?action=" 
++ action.action, 
+            headers: { 
+                "Authorization": "Basic" + Token, 
+                "Content-Type": "application/json" 
+            }, 
+            contentType: "application/json; charset=utf-8", 
+            dataType: "json", 
+            success: OnSuccessSearchMachineMaster, 
+            failure: function (response) { 
+ 
+                alert(response); 
+            } 
+        }); 
+        function OnSuccessSearchMachineMaster(response) { 
+            var Empmodal = response; 
+            alert(Empmodal); 
+            debugger; 
+            $("#EmpCode").val(Empmodal[0].EmpCode); 
+            $("#Title").val(Empmodal[0].Title); 
+            $("#FristName").val(Empmodal[0].FristName); 
+            $("#MiddleName").val(Empmodal[0].MiddleName); 
+            $("#LastName").val(Empmodal[0].LastName); 
+            $("#ContactNo").val(Empmodal[0].ContactNo); 
+            $("#MobileNo").val(Empmodal[0].MobileNo); 
+            $("#EmailId").val(Empmodal[0].EmailId); 
+            $("#DOB").val(Empmodal[0].DOB); 
+            $("#GID").val(Empmodal[0].GID); 
+            $("#BloodGroupID").val(Empmodal[0].BloodGroupID); 
+            $("#MSID").val(Empmodal[0].MSID); 
+            $("#CTC").val(Empmodal[0].CTC); 
+            $("#GrossAmount").val(Empmodal[0].GrossAmount); 
+            $("#TempAddress").val(Empmodal[0].TempAddress); 
+            $("#DocumentName").val(Empmodal[0].DocumentName); 
+            $("#TrainingDetails").val(Empmodal[0].TrainingDetails); 
+            $("#PanNo").val(Empmodal[0].PanNo); 
+            $("#ESICACCNO").val(Empmodal[0].ESICACCNO); 
+            $("#AutoMail").val(Empmodal[0].AutoMail); 
+            $("#LeaveId").val(Empmodal[0].LeaveId); 
+            $("#AttendanceID").val(Empmodal[0].AttendanceID); 
+        } 
+    }); 
+ 
+ 
+// CLEAR FIELDS 
+ 
+function clearFields() { 
+        $("#EmpCode").val(""); 
+        $("#Title").val(""); 
+        $("#FristName").val(""); 
+        $("#MiddleName").val(""); 
+        $("#LastName").val(""); 
+        $("#ContactNo").val(""); 
+        $("#MobileNo").val(""); 
+        $("#EmailId").val(""); 
+        $("#DOB").val(""); 
+        $("#GID").val(""); 
+        $("#BloodGroupID").val(""); 
+        $("#MSID").val(""); 
+        $("#CTC").val(""); 
+        $("#GrossAmount").val(""); 
+        $("#TempAddress").val(""); 
+        $("#DocumentName").val(""); 
+        $("#TrainingDetails").val(""); 
+        $("#PanNo").val(""); 
+        $("#ESICACCNO").val(""); 
+        $("#AutoMail").val(""); 
+        $("#LeaveId").val(""); 
+        $("#AttendanceID").val(""); 
+ 
+ 
+    } 
+ 
+function clearFields() { 
+    // Clear all input elements within the form with ID "employeeForm" 
+    $("#employeeForm :input").val(""); 
+} 
+______________________________________________________________________________________ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+// SAVE 
+ 
+$("#btnSave").click(function () { 
+        alert("button is working !") 
+        var SaveData = {            
+            EmpCode : $("#EmpCode").val(), 
+            Title : $("#Title").val(), 
+            FristName : $("#FristName").val(), 
+            MiddleName : $("#MiddleName").val(), 
+            LastName : $("#LastName").val(), 
+            ContactNo : $("#ContactNo").val(), 
+            MobileNo : $("#MobileNo").val(), 
+            EmailId : $("#EmailId").val(), 
+            DOB : $("#DOB").val(), 
+            GID : $("#GID").val(), 
+            BloodGroupID : $("#BloodGroupID").val(), 
+            MSID : $("#MSID").val(), 
+            CTC : $("#CTC").val(), 
+            GrossAmount : $("#GrossAmount").val(), 
+            TempAddress : $("#TempAddress").val(), 
+            DocumentName : $("#DocumentName").val(), 
+            TrainingDetails : $("#TrainingDetails").val(), 
+            PanNo : $("#PanNo").val(), 
+            ESICACCNO : $("#ESICACCNO").val(), 
+            AutoMail : $("#AutoMail").val(), 
+            LeaveId : $("#LeaveId").val(), 
+            AttendanceID : $("#AttendanceID").val() 
+             
+        }; 
+        alert(JSON.stringify(SaveData)); 
+        $.ajax({ 
+ 
+            type: "POST", 
+            url: "http://localhost:62335/EmployeeMasterAPICtrl/SaveData", 
+            contentType: "application/json; charset=utf-8", 
+            dataType: "json", 
+            data: JSON.stringify(SaveData), 
+            success: function (result) { 
+ 
+                alert("Inserted Successfully") 
+                 
+                clearFields(); 
+            }, 
+            failure: function (error) { 
+                alert(error); 
+            } 
+        }); 
+    }); 
+ 
+ 
+ 
+ 
+_____________________________________________________________________________ 
+ 
+// UPDATE 
+ 
+$("#btnUpdate").click(function () { 
+        alert("button is working !") 
+        var updateData = { 
+            EmpCode: $("#EmpCode").val(), 
+            Title: $("#Title").val(), 
+            FristName: $("#FristName").val(), 
+            MiddleName: $("#MiddleName").val(), 
+            LastName: $("#LastName").val(), 
+            ContactNo: $("#ContactNo").val(), 
+            MobileNo: $("#MobileNo").val(), 
+            EmailId: $("#EmailId").val(), 
+            DOB: $("#DOB").val(), 
+            GID: $("#GID").val(), 
+            BloodGroupID: $("#BloodGroupID").val(), 
+            MSID: $("#MSID").val(), 
+            CTC: $("#CTC").val(), 
+            GrossAmount: $("#GrossAmount").val(), 
+            TempAddress: $("#TempAddress").val(), 
+            DocumentName: $("#DocumentName").val(), 
+            TrainingDetails: $("#TrainingDetails").val(), 
+            PanNo: $("#PanNo").val(), 
+            ESICACCNO: $("#ESICACCNO").val(), 
+            AutoMail: $("#AutoMail").val(), 
+            LeaveId: $("#LeaveId").val(), 
+            AttendanceID: $("#AttendanceID").val(), 
+            EmpPhoto: $("#EmpPhoto").val(), 
+            DateofJoin: $("#DateofJoin").val() 
+ 
+        }; 
+        alert(JSON.stringify(updateData)); 
+        $.ajax({ 
+ 
+            type: "PUT", 
+            url: 
+"http://localhost:62335/EmployeeMasterAPICtrl/updateEmployeeMaster?EmpCode
+ =" + updateData.EmpCode, 
+            contentType: "application/json; charset=utf-8", 
+            dataType: "json", 
+            data: JSON.stringify(updateData), 
+            success: function (result) { 
+                alert("updated Successfully") 
+                clearFields(); 
+            }, 
+            failure: function (error) { 
+                alert(error); 
+            } 
+        }); 
+    }); 
+ 
+ 
+ 
+ 
+//DELETE  
+ 
+ 
+ $("#btnDelete").click(function () { 
+        alert("button is working !") 
+        var deleteData = { 
+            EmpCode: $("#EmpCode").val()           
+        }; 
+        alert(JSON.stringify(deleteData)); 
+        $.ajax({ 
+            type: "DELETE", 
+            url: 
+"http://localhost:62335/EmployeeMasterAPICtrl/deleteData?EmpCode=" + 
+deleteData.EmpCode, 
+            contentType: "application/json; charset=utf-8", 
+            dataType: "json", 
+            data: JSON.stringify(deleteData), 
+            success: function (result) { 
+                
+                alert("delete Successfully") 
+                clearFields(); 
+            }, 
+            failure: function (error) { 
+                alert(error); 
+            } 
+        }); 
+ 
+    }); 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+MVC WITHOUT N TIER 
+__________________________________________________________________________ 
+using System; 
+using System.Collections.Generic; 
+using System.Data; 
+using System.Data.SqlClient; 
+using System.Linq; 
+using System.Web; 
+using System.Web.Mvc; 
+ 
+namespace sacffoldingForms.Controllers 
+{ 
+ 
+    public class SupplierMaster 
+    { 
+        public int Id { get; set; } 
+        public string SuppCode { get; set; } 
+        public string SuppName { get; set; } 
+ 
+        public string ContactPerson { get; set; } 
+        public string Branch { get; set; } 
+        public string Address1 { get; set; } 
+        public string Address2 { get; set; } 
+        public string City { get; set; } 
+        public string State { get; set; } 
+ 
+        public int PinCode { get; set; } 
+ 
+        public string Country { get; set; } 
+        public string EmailID { get; set; } 
+ 
+ 
+        public int Telephone { get; set; } 
+        public int Mobile { get; set; } 
+ 
+        public string Fax { get; set; } 
+        public string Website { get; set; } 
+        public string GSTIN { get; set; } 
+        public string Remarks { get; set; } 
+        public string UserName { get; set; } 
+        public string LoginBranch { get; set; } 
+ 
+        public DateTime SysEntryDate { get; set; } 
+ 
+    } 
+    public class SupplierMasterCtrlController : Controller 
+    { 
+        // GET: SupplierMasterCtrl 
+        public ActionResult Index() 
+        { 
+            string str = "data source =PRASAD;initial 
+catalog=DEMO_DB;integrated security=true"; 
+            SqlConnection con = new SqlConnection(str); 
+            SqlCommand cmd = new SqlCommand("getAllSupplierMaster", con); 
+            cmd.CommandType = CommandType.StoredProcedure; 
+            SqlDataAdapter da = new SqlDataAdapter(cmd); 
+            DataSet ds = new DataSet(); 
+            DataTable dt = new DataTable(); 
+            da.Fill(ds); 
+            dt = ds.Tables[0]; 
+            List<SupplierMaster> lst = new List<SupplierMaster>(); 
+            foreach (DataRow item in dt.Rows) 
+            { 
+                lst.Add(new SupplierMaster() 
+                { 
+                    Id = Convert.ToInt32(item["Id"]), 
+                    SuppCode= item["SuppCode"].ToString(), 
+                    SuppName= item["SuppName"].ToString(), 
+                    ContactPerson = item["ContactPerson"].ToString(), 
+                    Branch = item["Branch"].ToString(), 
+                    Address1 = item["Address1"].ToString(), 
+                    Address2 = item["Address2"].ToString(), 
+                    City = item["City"].ToString(), 
+                    State = item["State"].ToString(), 
+                    PinCode = Convert.ToInt32(item["PinCode"]), 
+                    Country= item["Country"].ToString(), 
+                    EmailID= item["EmailID"].ToString(), 
+                    Telephone= Convert.ToInt32(item["Telephone"]), 
+                    Mobile= Convert.ToInt32(item["Mobile"]), 
+                    Fax= item["Fax"].ToString(), 
+                    Website = item["Website"].ToString(), 
+                    GSTIN = item["GSTIN"].ToString(), 
+                    Remarks = item["Remarks"].ToString(), 
+                    UserName = item["UserName"].ToString(), 
+                    LoginBranch = item["LoginBranch"].ToString(), 
+                    SysEntryDate=Convert.ToDateTime(item["SysEntryDate"]) 
+                }); 
+            } 
+            return View(lst); 
+        } 
+ 
+        // GET: SupplierMasterCtrl/Details/5 
+        public ActionResult Details(int id) 
+        { 
+            string str = "data source =PRASAD;initial 
+catalog=DEMO_DB;integrated security=true"; 
+            SqlConnection con = new SqlConnection(str); 
+            SqlCommand cmd = new SqlCommand("getByIdSupplierMaster", con); 
+            cmd.CommandType = CommandType.StoredProcedure; 
+            cmd.Parameters.AddWithValue("@Id", id); 
+            SqlDataAdapter da = new SqlDataAdapter(cmd); 
+            DataSet ds = new DataSet(); 
+            DataTable dt = new DataTable(); 
+            da.Fill(ds); 
+            dt = ds.Tables[0]; 
+            SupplierMaster sup = new SupplierMaster(); 
+            sup.Id = Convert.ToInt32(dt.Rows[0]["Id"]); 
+ 
+            sup.SuppCode = dt.Rows[0]["SuppCode"].ToString(); 
+            sup.SuppName = dt.Rows[0]["SuppName"].ToString(); 
+ 
+            sup.ContactPerson = dt.Rows[0]["ContactPerson"].ToString(); 
+            sup.Branch = dt.Rows[0]["Branch"].ToString(); 
+ 
+            sup.Address1 = dt.Rows[0]["Address1"].ToString(); 
+            sup.Address2 = dt.Rows[0]["Address2"].ToString(); 
+ 
+            sup.City = dt.Rows[0]["City"].ToString(); 
+            sup.State = dt.Rows[0]["State"].ToString(); 
+ 
+            sup.PinCode = Convert.ToInt32(dt.Rows[0]["PinCode"]); 
+ 
+            sup.Country = dt.Rows[0]["Country"].ToString(); 
+            sup.EmailID = dt.Rows[0]["EmailID"].ToString(); 
+ 
+            sup.Telephone = Convert.ToInt32(dt.Rows[0]["Telephone"]); 
+            sup.Mobile = Convert.ToInt32(dt.Rows[0]["Mobile"]); 
+ 
+            sup.Fax = dt.Rows[0]["Fax"].ToString(); 
+            sup.Website = dt.Rows[0]["Website"].ToString(); 
+            sup.GSTIN = dt.Rows[0]["GSTIN"].ToString(); 
+            sup.Remarks = dt.Rows[0]["Remarks"].ToString(); 
+            sup.UserName = dt.Rows[0]["UserName"].ToString(); 
+            sup.LoginBranch = dt.Rows[0]["LoginBranch"].ToString(); 
+ 
+            sup.LoginBranch = dt.Rows[0]["LoginBranch"].ToString(); 
+ 
+            return View(sup); 
+        } 
+ 
+        // GET: SupplierMasterCtrl/Create 
+        [HttpGet] 
+        public ActionResult Create() 
+        { 
+            return View(); 
+        } 
+ 
+        // POST: SupplierMasterCtrl/Create 
+        [HttpPost] 
+        public ActionResult Create(SupplierMaster sm) 
+        { 
+            try 
+            { 
+                int res = 0; 
+                string str = "data source =PRASAD;initial 
+catalog=DEMO_DB;integrated security=true"; 
+                SqlConnection con = new SqlConnection(str); 
+                SqlCommand cmd = new SqlCommand("saveSupplierMaster", 
+con); 
+                cmd.CommandType = CommandType.StoredProcedure; 
+                con.Open(); 
+                cmd.Parameters.AddWithValue("@SuppCode", sm.SuppCode); 
+                cmd.Parameters.AddWithValue("@SuppName", sm.SuppName); 
+ 
+                cmd.Parameters.AddWithValue("@ContactPerson", 
+sm.ContactPerson); 
+                cmd.Parameters.AddWithValue("@Branch", sm.Branch); 
+                cmd.Parameters.AddWithValue("@Address1", sm.Address1); 
+                cmd.Parameters.AddWithValue("@Address2", sm.Address2); 
+                cmd.Parameters.AddWithValue("@City", sm.City); 
+                cmd.Parameters.AddWithValue("@State", sm.State); 
+                cmd.Parameters.AddWithValue("@PinCode", sm.PinCode); 
+                cmd.Parameters.AddWithValue("@Country", sm.Country); 
+                cmd.Parameters.AddWithValue("@EmailID", sm.EmailID); 
+                cmd.Parameters.AddWithValue("@Telephone", sm.Telephone); 
+                cmd.Parameters.AddWithValue("@Mobile", sm.Mobile); 
+                cmd.Parameters.AddWithValue("@Fax", sm.Fax); 
+                cmd.Parameters.AddWithValue("@Website", sm.Website); 
+                cmd.Parameters.AddWithValue("@GSTIN", sm.GSTIN); 
+                cmd.Parameters.AddWithValue("@Remarks", sm.Remarks); 
+                cmd.Parameters.AddWithValue("@UserName", sm.UserName); 
+                cmd.Parameters.AddWithValue("@LoginBranch", 
+sm.LoginBranch); 
+                cmd.Parameters.AddWithValue("@SysEntryDate", 
+sm.SysEntryDate); 
+ 
+ 
+                res = cmd.ExecuteNonQuery(); 
+                con.Close(); 
+                return RedirectToAction("Index"); 
+            } 
+            catch 
+            { 
+                return View(); 
+            } 
+        } 
+ 
+        // GET: SupplierMasterCtrl/Edit/5 
+        public ActionResult Edit(int id) 
+        { 
+            string str = "data source =PRASAD;initial 
+catalog=DEMO_DB;integrated security=true"; 
+            SqlConnection con = new SqlConnection(str); 
+            SqlCommand cmd = new SqlCommand("getByIdSupplierMaster", con); 
+            cmd.CommandType = CommandType.StoredProcedure; 
+            cmd.Parameters.AddWithValue("@Id", id); 
+            SqlDataAdapter da = new SqlDataAdapter(cmd); 
+            DataSet ds = new DataSet(); 
+            DataTable dt = new DataTable(); 
+            da.Fill(ds); 
+            dt = ds.Tables[0]; 
+            SupplierMaster sup = new SupplierMaster(); 
+            sup.Id= Convert.ToInt32(dt.Rows[0]["Id"]); 
+ 
+            sup.SuppCode = dt.Rows[0]["SuppCode"].ToString(); 
+            sup.SuppName = dt.Rows[0]["SuppName"].ToString(); 
+ 
+            sup.ContactPerson = dt.Rows[0]["ContactPerson"].ToString(); 
+            sup.Branch = dt.Rows[0]["Branch"].ToString(); 
+ 
+            sup.Address1 = dt.Rows[0]["Address1"].ToString(); 
+            sup.Address2 = dt.Rows[0]["Address2"].ToString(); 
+ 
+            sup.City = dt.Rows[0]["City"].ToString(); 
+            sup.State = dt.Rows[0]["State"].ToString(); 
+ 
+            sup.PinCode = Convert.ToInt32(dt.Rows[0]["PinCode"]); 
+ 
+            sup.Country = dt.Rows[0]["Country"].ToString(); 
+            sup.EmailID = dt.Rows[0]["EmailID"].ToString(); 
+ 
+            sup.Telephone = Convert.ToInt32(dt.Rows[0]["Telephone"]); 
+            sup.Mobile = Convert.ToInt32(dt.Rows[0]["Mobile"]); 
+ 
+            sup.Fax = dt.Rows[0]["Fax"].ToString(); 
+            sup.Website = dt.Rows[0]["Website"].ToString(); 
+            sup.GSTIN = dt.Rows[0]["GSTIN"].ToString(); 
+            sup.Remarks = dt.Rows[0]["Remarks"].ToString(); 
+            sup.UserName = dt.Rows[0]["UserName"].ToString(); 
+            sup.LoginBranch = dt.Rows[0]["LoginBranch"].ToString(); 
+ 
+            sup.LoginBranch = dt.Rows[0]["LoginBranch"].ToString(); 
+             
+            return View(sup); 
+             
+        } 
+ 
+        // POST: SupplierMasterCtrl/Edit/5 
+        [HttpPost] 
+        public ActionResult Edit(int id, SupplierMaster sup) 
+        { 
+            try 
+            { 
+                int res = 0; 
+                string str = @"Data Source=PRASAD;Initial catalog=DEMO_DB; 
+Integrated Security=true"; 
+                SqlConnection con = new SqlConnection(str); 
+                SqlCommand cmd = new SqlCommand("updateSupplierMaster", 
+con); 
+                cmd.CommandType = System.Data.CommandType.StoredProcedure; 
+                con.Open(); 
+ 
+                cmd.Parameters.AddWithValue("@Id", id); 
+                cmd.Parameters.AddWithValue("@SuppCode", sup.SuppCode); 
+                cmd.Parameters.AddWithValue("@SuppName", sup.SuppName); 
+ 
+                cmd.Parameters.AddWithValue("@ContactPerson", 
+sup.ContactPerson); 
+                cmd.Parameters.AddWithValue("@Branch", sup.Branch); 
+                cmd.Parameters.AddWithValue("@Address1", sup.Address1); 
+                cmd.Parameters.AddWithValue("@Address2", sup.Address2); 
+                cmd.Parameters.AddWithValue("@City", sup.City); 
+                cmd.Parameters.AddWithValue("@State", sup.State); 
+                cmd.Parameters.AddWithValue("@PinCode", sup.PinCode); 
+                cmd.Parameters.AddWithValue("@Country", sup.Country); 
+                cmd.Parameters.AddWithValue("@EmailID", sup.EmailID); 
+                cmd.Parameters.AddWithValue("@Telephone", sup.Telephone); 
+                cmd.Parameters.AddWithValue("@Mobile", sup.Mobile); 
+                cmd.Parameters.AddWithValue("@Fax", sup.Fax); 
+                cmd.Parameters.AddWithValue("@Website", sup.Website); 
+                cmd.Parameters.AddWithValue("@GSTIN", sup.GSTIN); 
+                cmd.Parameters.AddWithValue("@Remarks", sup.Remarks); 
+                cmd.Parameters.AddWithValue("@UserName", sup.UserName); 
+                cmd.Parameters.AddWithValue("@LoginBranch", 
+sup.LoginBranch); 
+                cmd.Parameters.AddWithValue("@SysEntryDate", 
+sup.SysEntryDate); 
+ 
+                res = cmd.ExecuteNonQuery(); 
+                int nAffectedRows = cmd.ExecuteNonQuery(); 
+                con.Close(); 
+ 
+                if (nAffectedRows > 0) 
+                { 
+                    Response.Write("<script>alert('update 
+Successfully....')</script>"); 
+ 
+ 
+                } 
+                else 
+                { 
+                    Response.Write("<script>alert('Error 
+Occured...')</script>"); 
+                } 
+                return RedirectToAction("Index"); 
+                // TODO: Add update logic here 
+ 
+                
+            } 
+            catch 
+            { 
+                return View(); 
+            } 
+        } 
+ 
+        // GET: SupplierMasterCtrl/Delete/5 
+        public ActionResult Delete(int id) 
+        { 
+ 
+            string str = "data source =PRASAD;initial 
+catalog=DEMO_DB;integrated security=true"; 
+            SqlConnection con = new SqlConnection(str); 
+            SqlCommand cmd = new SqlCommand("getByIdSupplierMaster", con); 
+            cmd.CommandType = CommandType.StoredProcedure; 
+            cmd.Parameters.AddWithValue("@Id", id); 
+            SqlDataAdapter da = new SqlDataAdapter(cmd); 
+            DataSet ds = new DataSet(); 
+            DataTable dt = new DataTable(); 
+            da.Fill(ds); 
+            dt = ds.Tables[0]; 
+            SupplierMaster sup = new SupplierMaster(); 
+            sup.Id = Convert.ToInt32(dt.Rows[0]["Id"]); 
+ 
+            sup.SuppCode = dt.Rows[0]["SuppCode"].ToString(); 
+            sup.SuppName = dt.Rows[0]["SuppName"].ToString(); 
+ 
+            sup.ContactPerson = dt.Rows[0]["ContactPerson"].ToString(); 
+            sup.Branch = dt.Rows[0]["Branch"].ToString(); 
+ 
+            sup.Address1 = dt.Rows[0]["Address1"].ToString(); 
+            sup.Address2 = dt.Rows[0]["Address2"].ToString(); 
+ 
+            sup.City = dt.Rows[0]["City"].ToString(); 
+            sup.State = dt.Rows[0]["State"].ToString(); 
+ 
+            sup.PinCode = Convert.ToInt32(dt.Rows[0]["PinCode"]); 
+ 
+            sup.Country = dt.Rows[0]["Country"].ToString(); 
+            sup.EmailID = dt.Rows[0]["EmailID"].ToString(); 
+ 
+            sup.Telephone = Convert.ToInt32(dt.Rows[0]["Telephone"]); 
+            sup.Mobile = Convert.ToInt32(dt.Rows[0]["Mobile"]); 
+ 
+            sup.Fax = dt.Rows[0]["Fax"].ToString(); 
+            sup.Website = dt.Rows[0]["Website"].ToString(); 
+            sup.GSTIN = dt.Rows[0]["GSTIN"].ToString(); 
+            sup.Remarks = dt.Rows[0]["Remarks"].ToString(); 
+            sup.UserName = dt.Rows[0]["UserName"].ToString(); 
+            sup.LoginBranch = dt.Rows[0]["LoginBranch"].ToString(); 
+ 
+            sup.LoginBranch = dt.Rows[0]["LoginBranch"].ToString(); 
+ 
+            return View(sup); 
+ 
+        } 
+ 
+        // POST: SupplierMasterCtrl/Delete/5 
+        [HttpPost] 
+        public ActionResult Delete(int id, SupplierMaster sup) 
+        { 
+            try 
+            { 
+                string str = "data source =PRASAD;initial 
+catalog=DEMO_DB;integrated security=true"; 
+                SqlConnection con = new SqlConnection(str); 
+                SqlCommand cmd = new SqlCommand("deleteSupplierMaster", 
+con); 
+                cmd.CommandType = CommandType.StoredProcedure; 
+                con.Open(); 
+            
+                cmd.Parameters.AddWithValue("@Id", id); 
+                cmd.ExecuteNonQuery(); 
+                con.Close(); 
+                 
+                return RedirectToAction("Index"); 
+            } 
+            catch 
+            { 
+                return View(); 
+            } 
+        } 
+    } 
+} 
+ 
+ 
+ 
+ 
+ 
+WEB API WITHOUT N TIER 
+__________________________________________________________________________ 
+ 
+ 
+using System; 
+using System.Collections.Generic; 
+using System.Linq; 
+using System.Net; 
+using System.Net.Http; 
+using System.Web.Http; 
+using System.Data; 
+using System.Data.SqlClient; 
+using System.Web.Http.Cors; 
+ 
+namespace SalesmanMixForm.Controllers 
+{ 
+    public class ModalSalesman 
+    { 
+        public int saleman_ID { get; set; } 
+        public string Sname { get; set; } 
+        public string city { get; set; } 
+        public decimal commission { get; set; } 
+    } 
+ 
+ 
+ 
+ 
+    [EnableCors(origins: "*", headers: "*", methods: "*")] 
+    public class SalesmanController : ApiController 
+    { 
+//http://localhost:61237/api/Salesman/getAllSalesman 
+        [HttpGet] 
+        public DataTable getAllSalesman() 
+        { 
+            string str = @"Data Source=PRASAD;Initial catalog=MVC; 
+Integrated Security=true"; 
+            SqlConnection con = new SqlConnection(str); 
+            SqlCommand cmd = new SqlCommand("getAllSalesman", con); 
+            cmd.CommandType = System.Data.CommandType.StoredProcedure; 
+            SqlDataAdapter da = new SqlDataAdapter(cmd); 
+            DataSet ds = new DataSet(); 
+            DataTable dt = new DataTable(); 
+            da.Fill(ds); 
+            dt = ds.Tables[0]; 
+            return dt; 
+        } 
+ 
+        [HttpGet] 
+  //http://localhost:61237/api/Salesman/GetById?id=3 
+        public DataTable GetById(int id) 
+        { 
+            string str = @"Data Source=PRASAD;Initial catalog=MVC; 
+Integrated Security=true"; 
+            SqlConnection con = new SqlConnection(str); 
+            SqlCommand cmd = new SqlCommand("getByIdsalesman", con); 
+            cmd.CommandType = CommandType.StoredProcedure; 
+            cmd.Parameters.AddWithValue("@saleman_ID", id); 
+            SqlDataAdapter da = new SqlDataAdapter(cmd); 
+            DataSet ds = new DataSet(); 
+            DataTable dt = new DataTable(); 
+            da.Fill(ds); 
+            dt = ds.Tables[0]; 
+            return dt; 
+        } 
+ 
+        [HttpPost] 
+//http://localhost:61237/api/Salesman/SaveData 
+        public int SaveData(ModalSalesman modal) 
+        { 
+            string str = "Data Source=PRASAD;Initial catalog=MVC; 
+Integrated Security=true"; 
+            SqlConnection con = new SqlConnection(str); 
+            SqlCommand cmd = new SqlCommand("saveSalesman", con); 
+            cmd.CommandType = CommandType.StoredProcedure; 
+            con.Open(); 
+            cmd.Parameters.AddWithValue("@Sname", modal.Sname); 
+            cmd.Parameters.AddWithValue("@city", modal.city); 
+            cmd.Parameters.AddWithValue("@commission", modal.commission); 
+            int res = cmd.ExecuteNonQuery(); 
+            con.Close(); 
+            return res;  } 
+ 
+        [HttpPut] 
+//http://localhost:61237/api/Salesman/UpdateData?id=3 
+        public int UpdateData(int id, ModalSalesman modal) 
+        { 
+            string str = @"Data Source=PRASAD;Initial catalog=MVC; 
+Integrated Security=true"; 
+            SqlConnection con = new SqlConnection(str); 
+            SqlCommand cmd = new SqlCommand("updateSalesman", con); 
+            cmd.CommandType = System.Data.CommandType.StoredProcedure; 
+            cmd.Parameters.AddWithValue("@saleman_ID", id); 
+            cmd.Parameters.AddWithValue("@Sname", modal.Sname); 
+            cmd.Parameters.AddWithValue("@city", modal.city); 
+            cmd.Parameters.AddWithValue("@commission", modal.commission); 
+            con.Open(); 
+            int res = cmd.ExecuteNonQuery(); 
+            con.Close(); 
+            return res; 
+        } 
+ 
+        [HttpDelete] 
+   //http://localhost:61237/api/Salesman/DeleteSalesman?id=3 
+        public int DeleteSalesman(int id, ModalCustomer modal) 
+        { 
+            string str = @"Data Source=PRASAD;Initial catalog=MVC; 
+Integrated Security=true"; 
+            SqlConnection con = new SqlConnection(str); 
+            SqlCommand cmd = new SqlCommand("deleteSalesman", con); 
+            cmd.CommandType = System.Data.CommandType.StoredProcedure; 
+ 
+            cmd.Parameters.AddWithValue("@saleman_ID", id); 
+ 
+            con.Open(); 
+            int res = cmd.ExecuteNonQuery(); 
+            con.Close(); 
+ 
+            return res; 
+        } 
+    } 
+} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CODE GENERATION 
+ 
+ 
+public string BindIndentNumber(IndentMasterModel IndentModal) 
+        { 
+            string str = @"Data Source=PRASAD; Initial 
+catalog=OfflineProject ; Integrated Security=true"; 
+            SqlConnection con = new SqlConnection(str); 
+            SqlCommand cmd = new SqlCommand("newItemCode", con); 
+            cmd.CommandType = CommandType.StoredProcedure; 
+            SqlDataAdapter da = new SqlDataAdapter(cmd); 
+            DataSet ds = new DataSet(); 
+            DataTable dt = new DataTable(); 
+            da.Fill(ds); 
+            dt = ds.Tables[0]; 
+            int IndentCode = 
+Convert.ToInt32(dt.Rows[0]["IndentNoAutoGen2"].ToString()); 
+                string NewIndentCode = Convert.ToString(IndentCode + 1); 
+                string Code = NewIndentCode.PadLeft(4, '0'); 
+                string IndentCode2 = "PMRSMP" + Code; 
+                this.Close(); 
+                return IndentCode2; 
+             
+        } 
+ 
+ 
+ 
+ 
+Custom Validation 
+ 
+ 
+using System; 
+using System.Collections.Generic; 
+using System.ComponentModel.DataAnnotations; 
+using System.Data; 
+using System.Data.SqlClient; 
+using System.Linq; 
+using System.Text; 
+using System.Threading.Tasks; 
+ 
+namespace StandardMetals.MODEL 
+{ 
+    public class CustomValidation : ValidationAttribute 
+    { 
+        protected override ValidationResult IsValid(object value, 
+ValidationContext validationContext) 
+        { 
+            var model = 
+(CompanyMasterModel)validationContext.ObjectInstance; 
+ 
+            if (model != null) 
+            { 
+                if (value != null && value is string stringValue) 
+                { 
+                    if (validationContext.MemberName == "Mobile") 
+                    { 
+                         
+                        if (stringValue.Length == 10 && 
+stringValue.All(char.IsDigit)) 
+                        { 
+                            return ValidationResult.Success; 
+                        } 
+                        else 
+                        { 
+                            return new ValidationResult("Mobile number 
+must be 10 digits long."); 
+                        } 
+                    } 
+                    else if (validationContext.MemberName == 
+"CompanyName") 
+                    { 
+                        
+                        if (stringValue.Length == 5 && 
+stringValue.All(char.IsLetter)) 
+                        { 
+                            return ValidationResult.Success; 
+                        } 
+                        else 
+                        { 
+                            return new ValidationResult("Company name must 
+be 5 letters."); 
+                        } 
+                    } 
+                    //PinCode 
+                    else if (validationContext.MemberName == "PinCode") 
+                    { 
+ 
+                        if (stringValue.Length == 6 && 
+stringValue.All(char.IsDigit)) 
+                        { 
+                            return ValidationResult.Success; 
+                        } 
+                        else 
+                        { 
+                            return new ValidationResult("PinCode name must 
+be 6 digit."); 
+                        } 
+                    } 
+                } 
+            } 
+ 
+            return new ValidationResult("Invalid model type or null 
+value"); 
+        } 
+    } 
+} 
+ 
+ 
+ 
+ 
+ 
+POP UP PARTIAL VIEW 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<script 
+src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></s
+ cript> 
+ 
+ 
+ 
+    <button type="button" class="btn-block" style="width:225px">Create 
+Customer</button> 
+    <div class="modal fade" id="myModal" role="dialog" data
+url='@Url.Action("Create","CustomerMasterCtrl")'></div> 
+    <script type="text/javascript"> 
+ 
+ 
+    $(document).ready(function () { 
+ 
+        $('.btn-block').click(function () { 
+             
+            var url = $('#myModal').data('url'); 
+            $.get(url, function (data) { 
+ 
+                $("#myModal").html(data); 
+                $("#myModal").modal('show'); 
+            }); 
+ 
+        }); 
+    }); 
+    </script> 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<div class="container"> 
+    <div class="row"> 
+        <div class="modal-dialog"> 
+            <div class="modal-content"> 
+ 
+                <!-- Modal Header --> 
+                <div class="modal-header"> 
+ 
+                    <button type="button" class="close" data
+dismiss="modal">&times;</button> 
+                    <h4 class="modal-title" id="myModal-label">Modal 
+Title</h4> 
+                </div> 
+ 
+ 
+<!-- Modal Footer --> 
+                <div class="modal-footer"> 
+                    <button type="button" class="btn btn-secondary" data
+dismiss="modal">Close</button> 
+                </div> 
+ 
+            </div> 
+        </div> 
+    </div> 
+</div> 
+ 
+ 
+ 
+ 
+<button type="button" class="BtnEdit2_@item.ItemCode btn-success" 
+style="width:65px">Edit</button> 
+                        <div class="modal fade" 
+id="myModal1_@item.ItemCode" role="dialog" data
+url='@Url.Action("Edit","Master", new { id=item.ItemCode})'></div> 
+ 
+                        <script type="text/javascript"> 
+                    $(document).ready(function () { 
+ 
+                        $('.BtnEdit2_@item.ItemCode').click(function () { 
+                            var url = 
+$('#myModal1_@item.ItemCode').data('url'); 
+                            $.get(url, function (data) { 
+ 
+                                $("#myModal1_@item.ItemCode").html(data); 
+                                
+$("#myModal1_@item.ItemCode").modal('show'); 
+                            }); 
+                        }); 
+ 
+                    }); 
+                        </script> 
+ 
+ 
+ 
+ 
+ 
+<div class="modal-dialog" style="height: Auto; width:auto;"> 
+    <div class="modal-content"> 
+        <div class="modal-header"> 
+            <button type="button" class="close" data-dismiss="modal"> 
+                &times; 
+            </button> 
+            <h4 class="modal-title">Add New Item </h4> 
+        </div> 
+        <div class="modal-body form-group-sm"> 
+            <div class="col-lg-12 col-md-12"> 
+                <div class="box box-info"> 
+ 
+//code 
+ 
+  <!-- /.box-header --> 
+                    <!-- /.box-body --> 
+                </div> 
+                <!-- /.box --> 
+            </div> 
+        </div> 
+        <div class="modal-footer"> 
+        </div> 
+    </div> 
+</div> 
+ 
+ 
+VIEW BAG 
+ 
+DataTable dt = new DataTable(); 
+            dt = supBal.getAllCountry(); 
+            List<SupplierMasterMVCModal> lst = new 
+List<SupplierMasterMVCModal>(); 
+            foreach (DataRow item in dt.Rows) 
+            { 
+                lst.Add(new SupplierMasterMVCModal() 
+                { 
+                    CountryId = Convert.ToInt32(item["CountryId"]), 
+                    Country = item["Country"].ToString() 
+                }); 
+            }            
+            ViewBag.list= lst; 
+             
+ 
+@Html.DropDownListFor(model => model.CountryId, new 
+SelectList(ViewBag.list4, "CountryId", "Country"), "Select Country", 
+htmlAttributes: new { @class = "form-control" }) 
+ 
+ 
+ 
+ 
+ 
+ 
+DOWNLOAD TO EXCEL 
+ 
+public ActionResult ExportToExcel() 
+        { 
+            dt9 = machineBAL.GetMachineMaster(); 
+            using (var workbook = new XLWorkbook()) 
+            { 
+                var worksheet = 
+workbook.Worksheets.Add("MachineMasterData"); 
+                worksheet.Cell(1, 1).InsertTable(dt9); 
+ 
+                Response.ClearContent(); 
+                Response.Buffer = true; 
+                Response.AddHeader("content-disposition", "attachment; 
+filename=MachineMasterData.xlsx"); 
+                Response.ContentType = "application/vnd.openxmlformats
+officedocument.spreadsheetml.sheet"; 
+ 
+                using (MemoryStream memoryStream = new MemoryStream()) 
+                { 
+                    workbook.SaveAs(memoryStream); 
+                    memoryStream.WriteTo(Response.OutputStream); 
+                    memoryStream.Close(); 
+                } 
+ 
+                Response.End(); 
+            } 
+ 
+            return RedirectToAction("MachineJWList"); 
+        } 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+SAVE ERRORS IN FILE AND DATABASE 
+ 
+ 
+ 
+ 
+using System; 
+using System.Collections.Generic; 
+using System.Data; 
+using System.Data.SqlClient; 
+using System.IO; 
+using System.Linq; 
+using System.Web; 
+ 
+namespace StandardMetals 
+{ 
+    public class handler 
+    { 
+        public static void AppendTextToFile(string text) 
+        { 
+            string outputPath = @"D:\output.txt"; 
+            using (StreamWriter writer = new StreamWriter(outputPath, 
+true)) 
+            { 
+                writer.WriteLine("-------------------------------------- 
+new log start --------------------------------------------------------------------------"); 
+                writer.WriteLine($"Timestamp: {DateTime.Now}"); 
+                writer.WriteLine(text); 
+                writer.WriteLine("------------------------------------------------------------------------ log end -----------------------------------------------"); 
+                writer.WriteLine(); 
+            } 
+            string str = "data source =PRASAD;initial 
+catalog=Project;integrated security=true"; 
+            SqlConnection con = new SqlConnection(str); 
+            SqlCommand cmd = new SqlCommand("AddLogTable", con); 
+            cmd.CommandType = CommandType.StoredProcedure; 
+            con.Open(); 
+ 
+            cmd.Parameters.AddWithValue("@logName", text); 
+            cmd.Parameters.AddWithValue("@logDate", DateTime.Now); 
+ 
+            cmd.ExecuteNonQuery(); 
+            con.Close(); 
+        } 
+ 
+ 
+    } 
+} 
